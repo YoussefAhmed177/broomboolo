@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart</title>
+  <link rel="stylesheet" href="cart.css">
+  <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
+  <header>
+    <h1>Cart - Protection Services</h1>
+  </header>
+
+  <!-- Main Cart Section -->
+  <main class="cart-container">
+    <div class="cart-items"></div>
+    <div class="cart-total">
+      <h3>Total: $<span id="total-price">0</span></h3>
+      <button class="btn btn-success checkout-btn">Proceed to Checkout</button>
+    </div>
+
+    <!-- User Info Section -->
+    <div class="user-info">
+      <h4>User Information</h4>
+      <input type="text" id="user-address" class="form-control mb-3" placeholder="Enter your full address">
+      <input type="text" id="user-phone" class="form-control mb-3" placeholder="Enter your phone number">
+      <p>Country: <span id="user-country">Detecting...</span></p>
+    </div>
+  </main>
+
+
+  <script>
+    // Load cart from Local Storage
+    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartContainer = document.querySelector('.cart-items');
+    const totalPriceElement = document.getElementById('total-price');
+    let totalPrice = 0;
+
+    cartItems.forEach(item => {
+      // Create a cart item element
+      const cartItem = document.createElement('div');
+      cartItem.classList.add('cart-item');
+      cartItem.innerHTML = `
+        <h2>${item.name}</h2>
+        <span class="price">$${item.price}</span>
+      `;
+      cartContainer.appendChild(cartItem);
+
+      // Update total price
+      totalPrice += item.price;
+    });
+
+    // Update total price in DOM
+    totalPriceElement.textContent = totalPrice;
+
+    // Checkout button functionality
+    document.querySelector('.checkout-btn').addEventListener('click', () => {
+      alert('Proceeding to checkout...');
+    });
+
+    // Address detection
+    const addressInput = document.getElementById('user-address');
+    const countryElement = document.getElementById('user-country');
+
+    addressInput.addEventListener('blur', async () => {
+      const address = addressInput.value;
+      if (address) {
+        try {
+          const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?localityLanguage=en`);
+          const data = await response.json();
+          const country = data.countryName || "Unknown";
+          countryElement.textContent = country;
+        } catch (error) {
+          countryElement.textContent = "Error detecting country";
+        }
+      }
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>  </script>
+  <footer style="background-color: #343a40; color: white; padding: 20px; text-align: center;">
+    <div class="container">
+      <div class="row">
+        <!-- About Us Section -->
+        <div class="col-md-4">
+          <h4>About Us</h4>
+          <p>
+            Bromboolo offers the best protection services with high-quality cameras and security systems.
+          </p>
+        </div>
+  
+        <!-- Links Section -->
+        <div class="col-md-4">
+          <h4>Quick Links</h4>
+          <ul style="list-style: none; padding: 0;">
+            <li><a href="home.html" style="color: white; text-decoration: none;">Home</a></li>
+            <li><a href="products.html" style="color: white; text-decoration: none;">Products</a></li>
+            <li><a href="services.html" style="color: white; text-decoration: none;">Services</a></li>
+            <li><a href="cart.html" style="color: white; text-decoration: none;">Cart</a></li>
+          </ul>
+        </div>
+  
+        <!-- Contact Section -->
+        <div class="col-md-4">
+          <h4>Contact Us</h4>
+          <p>Email: support@bromboolo.com</p>
+          <p>Phone: +123 456 789</p>
+          <p>Address: 123 Security St., Protect City</p>
+          <div>
+            <a href="https://facebook.com" target="_blank" style="color: white; margin: 0 10px; text-decoration: none;">
+              <i class="fab fa-facebook-f"></i> Facebook
+            </a>
+            <a href="https://twitter.com" target="_blank" style="color: white; margin: 0 10px; text-decoration: none;">
+              <i class="fab fa-twitter"></i> Twitter
+            </a>
+            <a href="https://instagram.com" target="_blank" style="color: white; margin: 0 10px; text-decoration: none;">
+              <i class="fab fa-instagram"></i> Instagram
+            </a>
+          </div>
+        </div>
+      </div>
+  
+      <hr style="border-color: #555;">
+      <p>&copy; 2024 Bromboolo. All rights reserved.</p>
+    </div>
+    <h5>by youssef ahmed</h5>
+  </footer>
+  <script src="bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
